@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b2140">
+<title>சுபம் பேப்பர்ஸ் - வருகைப் பதிவு</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2140;--brand:#0e7490;--teal:#14b8a6;--ink:#10203a;--muted:#64748b;--line:#e2e8f0;--bg:#eef3f8;--green:#16a34a;--red:#dc2626;--amber:#f59e0b;--r:18px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;color:var(--ink);font:15px/1.5 "Noto Sans Tamil",system-ui,-apple-system,"Segoe UI",Roboto,"Nirmala UI",Latha,Arial,sans-serif;min-height:100vh;background:radial-gradient(1100px 480px at 90% -10%,#cfeaf1 0,transparent 60%),radial-gradient(900px 500px at -10% 0,#d8e4f5 0,transparent 55%),var(--bg);background-attachment:fixed}
+header{background:linear-gradient(115deg,#0b2140 0%,#0e5f7d 60%,#12a5a0 100%);color:#fff;padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));position:sticky;top:0;z-index:30;box-shadow:0 8px 28px #0b214044}
+.hwrap{max-width:1180px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+header h1{margin:0;font-size:19px;font-weight:800}header p{margin:2px 0 0;color:#bfe3ee;font-size:12px}
+.hclock{font-weight:700;font-size:14px;background:#ffffff26;border:1px solid #ffffff33;border-radius:10px;padding:6px 11px;white-space:nowrap;font-variant-numeric:tabular-nums}
+#busy{position:fixed;left:0;top:0;height:3px;width:0;background:var(--teal);z-index:50;transition:width .4s}
+body.busy #busy{width:85%}
+main{max-width:1180px;margin:16px auto;padding:0 12px 40px}
+.card{background:#fff;border:1px solid #e3ebf3;border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 10px 34px #0f2a4a12}
+h2{font-size:18px;margin:0 0 12px;font-weight:800;color:var(--navy)}h3{margin:14px 0 8px;color:var(--navy)}
+.sub{color:var(--muted);font-size:12px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label{display:block;font-weight:700;font-size:12px;margin:10px 0 5px;color:#334155}
+input,select{width:100%;padding:12px;border:1.5px solid #cbd5e1;border-radius:12px;font:inherit;font-size:15px;background:#fff;color:var(--ink);outline:none;transition:border .15s,box-shadow .15s}
+input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 4px #0e749026}
+button{border:0;border-radius:12px;padding:12px 16px;background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer;margin:7px 6px 0 0;transition:transform .08s,filter .15s;box-shadow:0 4px 12px #0e749033}
+button:hover{filter:brightness(1.06)}button:active{transform:scale(.97)}
+button.green{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 4px 12px #16a34a33}
+button.red{background:linear-gradient(135deg,#dc2626,#ef4444)}
+button.light{background:#e6eef6;color:#17324f;box-shadow:none}
+button.ghost{background:#ffffff26;border:1px solid #ffffff44;box-shadow:none;margin:0}
+button.sm{padding:7px 10px;font-size:12px;margin:2px 3px 2px 0}
+button:disabled{opacity:.55;cursor:not-allowed}.full{width:100%;margin-right:0}.hidden{display:none!important}
+.msg{margin-top:12px;padding:11px 13px;border-radius:12px;background:#e0f2fe;color:#0c4a6e;font-size:13px;line-height:1.6}.msg.err{background:#fee2e2;color:#991b1b}.msg.ok{background:#dcfce7;color:#166534}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;background:#fff;padding:6px;border-radius:999px;border:1px solid var(--line);box-shadow:0 4px 16px #0f2a4a0f;position:sticky;top:64px;z-index:10}
+.tabs button{background:transparent;color:#35516d;box-shadow:none;margin:0;border-radius:999px;padding:9px 14px}
+.tabs button.active{background:linear-gradient(135deg,#0e7490,#14b8a6);color:#fff;box-shadow:0 4px 12px #14b8a655}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0}
+.stat{background:#fff;border:1px solid #e1ebf2;border-left:4px solid var(--brand);padding:13px;border-radius:14px;color:#526578;font-size:12px;box-shadow:0 4px 14px #0f2a4a0a}
+.stat strong{display:block;font-size:24px;font-weight:800;color:var(--navy);margin-top:4px}
+.stat.g{border-left-color:var(--green)}.stat.g strong{color:var(--green)}
+.stat.r{border-left-color:var(--red)}.stat.r strong{color:var(--red)}
+.stat.a{border-left-color:var(--amber)}.stat.a strong{color:#b45309}
+.tablewrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:700px;font-size:13px}th,td{padding:10px 9px;border-bottom:1px solid #e8eef4;text-align:left;white-space:nowrap}
+th{background:#eaf4f7;color:#14384c;font-weight:700;position:sticky;top:0}tr:last-child td{border-bottom:0}
+tbody tr:nth-child(even){background:#f8fbfd}tbody tr:hover{background:#eef7fa}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;background:#e2e8f0;color:#334155}.pill.ok{background:#dcfce7;color:#166534}.pill.in{background:#fef3c7;color:#92400e}.pill.off{background:#fee2e2;color:#991b1b}
+/* login */
+.boot{max-width:440px;margin:60px auto;text-align:center;color:var(--muted)}
+.loginbox{max-width:440px;margin:34px auto;box-shadow:0 20px 50px #0f2a4a1f}
+.brandline{text-align:center;margin-bottom:12px}.brandline .mark{width:72px;height:72px;margin:0 auto 8px;border-radius:22px;background:linear-gradient(135deg,#0b2140,#0e7490);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 12px 28px #0e749055}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#e6eef6;border-radius:13px;padding:4px;margin:6px 0 4px}.seg button{margin:0;background:transparent;color:#38526e;box-shadow:none}.seg button.active{background:#fff;color:var(--navy);box-shadow:0 2px 8px #0f172a18}
+.pinwrap{position:relative}.pinwrap input{padding-right:52px;letter-spacing:3px;font-size:18px}
+.eye{position:absolute;right:4px;top:4px;margin:0;padding:9px 12px;background:transparent!important;color:#475569;font-size:17px;box-shadow:none}
+/* employee dashboard */
+.hero{background:linear-gradient(120deg,#0b2140 0%,#0e6a86 65%,#14b8a6 100%);color:#fff;border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:0 14px 34px #0b214033}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.hero .hi{font-size:13px;opacity:.85}.hero h2{color:#fff;margin:2px 0 4px;font-size:22px}.herosub{font-size:12px;opacity:.85}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hchip{background:#ffffff26;border:1px solid #ffffff33;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.punchcard{display:flex;flex-direction:column;align-items:center;text-align:center}
+.punch{width:190px;height:190px;border-radius:50%;margin:6px 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:24px;color:#fff;box-shadow:0 14px 34px #0f172a33,inset 0 0 0 6px #ffffff33}
+.punch span{font-size:50px;line-height:1}.punch small{font-size:12px;font-weight:600;opacity:.9}
+.punch.in{background:linear-gradient(145deg,#22c55e,#15803d)}.punch.out{background:linear-gradient(145deg,#f87171,#b91c1c);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 14px 34px #0f172a33,0 0 0 0 #ef444466}70%{box-shadow:0 14px 34px #0f172a33,0 0 0 20px #ef444400}100%{box-shadow:0 14px 34px #0f172a33,0 0 0 0 #ef444400}}
+.chip{margin-top:14px;padding:7px 14px;border-radius:999px;background:#e2e8f0;font-weight:700;font-size:13px}.chip.in{background:#fef3c7;color:#92400e}.chip.done{background:#dcfce7;color:#166534}
+.remarks{width:100%;max-width:420px;margin-top:10px;text-align:left}
+.punchcard .msg{width:100%;text-align:left}
+.livebreak{width:100%;margin-top:12px;background:#f1f7fb;border:1px solid #d6e6ef;border-radius:16px;padding:10px}.lbh{font-size:11px;font-weight:800;color:#35516d;letter-spacing:.5px;margin-bottom:8px}.lbh span{float:right;color:#16a34a}.lbgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.lbt{background:#fff;border:1px solid #e1ebf2;border-top:3px solid var(--brand);border-radius:12px;padding:8px 4px;text-align:center}.lbt small{display:block;font-size:9.5px;font-weight:700;color:#64748b}.lbt b{font-size:24px;color:var(--navy);font-variant-numeric:tabular-nums}.lbt.ot{border-top-color:var(--amber)}.lbt.ot b{color:#b45309}
+.biocard{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:linear-gradient(135deg,#eefafb,#f3f8ff);border:1px dashed #9fd3df;border-radius:16px;padding:12px 14px;margin-bottom:14px;font-size:13px}
+/* memo (print format) */
+.memo{max-width:850px;margin:0 auto;color:#111;font-family:Calibri,Arial,sans-serif}.memo-head{text-align:center;background:#4aaec0;color:#071e2b;font-weight:700;padding:7px;font-size:17px}
+.memo-month{text-align:center;background:#4aaec0;font-weight:700;padding:7px;font-size:15px}
+.memo-info{width:100%;border-collapse:collapse;min-width:0;margin:0}.memo-info td{border:1px solid #c9c9c9;padding:7px 6px;font-size:12px}.memo-info .key{font-weight:700;width:16%}
+.memo-table{width:100%;min-width:0;border-collapse:collapse;table-layout:fixed;font-size:10px}
+.memo-table th,.memo-table td{border:1px solid #111;padding:5px 3px;text-align:center;white-space:normal;overflow-wrap:anywhere}
+.memo-table th{background:#4aaec0;color:#061e2a;font-size:10px;position:static}.memo-table .sun{background:#fff200;font-weight:700}.memo-table .remark{text-align:left}
+.memo-total td{font-weight:700;height:26px}.memo-actions{margin:12px 0;text-align:right}
+#myMemoOutput{display:none}
+@media(max-width:760px){
+ header h1{font-size:16px}header p{font-size:11px}main{margin:10px auto;padding:0 9px 40px}.card{padding:14px;border-radius:16px}
+ .dash-grid{grid-template-columns:1fr}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:18px;top:58px}.tabs button{flex:0 0 auto}
+ .row>div{width:100%}.row>div input,.row>div button{margin-top:6px}
+ button{min-height:44px}.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}table{min-width:760px}
+ .memo{width:100%;max-width:100%;overflow:visible}.memo-head{font-size:15px}.memo-info td{font-size:11px;padding:6px 4px}.memo-table th,.memo-table td{font-size:9px;padding:5px 2px}
+ .loginbox{margin:14px auto}.hero h2{font-size:19px}.punch{width:170px;height:170px}
+}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.hclock{font-size:12px}}
+@page{size:A4 portrait;margin:5mm}
+@media print{
+ html,body{width:100%!important;min-width:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#000!important;font-family:Calibri,Arial,sans-serif!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+ header,#busy,.no-print,#bootCard,#loginCard,#employeeCard,#adminDashboard>.tabs,#nonPrintArea{display:none!important}
+ main{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}
+ .card{border:0!important;box-shadow:none!important;border-radius:0!important;padding:0!important;margin:0!important}
+ #adminCard{display:block!important}#tab-reports{display:block!important}#reportOutput{display:block!important;width:100%!important}
+ .memo{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;font-family:Calibri,Arial,sans-serif!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ .memo-head{font-size:13pt!important;padding:2mm!important;border:1px solid #000!important;background:#9fdbe5!important;color:#000!important}
+ .memo-month{font-size:10pt!important;padding:1.5mm!important;border:1px solid #000!important;background:#9fdbe5!important;color:#000!important}
+ .memo-info{width:100%!important;border-collapse:collapse!important;table-layout:fixed!important}
+ .memo-info td{font-family:Calibri,Arial,sans-serif!important;font-size:8pt!important;line-height:1.05!important;padding:1.2mm!important;border:1px solid #000!important;height:7mm!important}
+ .memo-table{width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;font-family:Calibri,Arial,sans-serif!important}
+ .memo-table th,.memo-table td{font-family:Calibri,Arial,sans-serif!important;font-size:7pt!important;line-height:1!important;padding:.8mm .5mm!important;height:6.1mm!important;border:1px solid #000!important;color:#000!important;white-space:normal!important;overflow-wrap:anywhere!important;vertical-align:middle!important}
+ .memo-table th{font-weight:700!important;background:#9fdbe5!important}.memo-table .sun{background:#fff2a6!important;font-weight:700!important}.memo-total td{font-weight:700!important;height:7mm!important}
+ .memo-info tr,.memo-table tr{break-inside:avoid!important;page-break-inside:avoid!important}.memo-actions{display:none!important}
+ .tablewrap{overflow:visible!important;border:0!important}.tablewrap table{width:100%!important;min-width:0!important;table-layout:auto!important;font-size:7pt!important}.tablewrap th,.tablewrap td{white-space:normal!important;padding:3px!important;font-size:7pt!important}
+ .page-break{break-before:page;page-break-before:always}
+ body.print-my-memo header,body.print-my-memo #loginCard,body.print-my-memo #adminCard{display:none!important}
+ body.print-my-memo #employeeCard{display:block!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+ body.print-my-memo #employeeCard>*:not(#myMemoOutput){display:none!important}
+ body.print-my-memo #myMemoOutput{display:block!important;width:100%!important;margin:0!important;padding:0!important}
+}
+</style>
+</head>
+<body>
+<div id="busy" class="no-print"></div>
+<header class="no-print"><div class="hwrap"><div><h1>சுபம் பேப்பர்ஸ் லிமிடெட்</h1><p>வருகைப் பதிவு • OT குறிப்பு • மாதச் சம்பளம்</p></div><div style="display:flex;gap:8px;align-items:center"><button class="ghost" id="langBtn" data-notr onclick="toggleLang()" style="padding:6px 11px;font-size:13px">English</button><div class="hclock" id="hclock">--:--</div></div></div></header>
+<main>
+
+<!-- ஏற்றுகிறது -->
+<section class="card boot" id="bootCard">⏳ ஏற்றுகிறது… சற்று காத்திருக்கவும்.</section>
+
+<!-- உள்நுழைவு -->
+<section class="card loginbox hidden" id="loginCard">
+  <div class="brandline"><div class="mark">🏭</div><h2 style="margin:0">வரவேற்கிறோம்</h2><div class="sub">உங்கள் கணக்கில் உள்நுழையுங்கள்</div></div>
+  <div class="seg"><button id="segEmp" class="active" onclick="setMode('employee')">👷 ஊழியர்</button><button id="segAdmin" onclick="setMode('admin')">🛠 நிர்வாகி</button></div>
+  <div id="empIdArea"><label>ஊழியர் எண் (Employee ID)</label><input id="empId" name="emp-no-field" readonly onfocus="this.removeAttribute('readonly')" autocomplete="off" autocapitalize="characters" placeholder="ஊழியர் எண்ணை உள்ளிடவும்" onkeydown="if(event.key==='Enter')$('pin').focus()"></div>
+  <label>PIN எண்</label>
+  <div class="pinwrap"><input id="pin" name="pin-field" type="password" readonly onfocus="this.removeAttribute('readonly')" inputmode="numeric" autocomplete="new-password" placeholder="••••" onkeydown="if(event.key==='Enter')login()"><button type="button" class="eye" onclick="togglePin()" aria-label="PIN காட்டு">👁</button></div>
+  <button class="full" style="margin-top:16px;padding:15px;font-size:16px" onclick="login()">உள்நுழை</button>
+  <div id="loginMsg" class="msg hidden"></div>
+  <p class="sub" style="margin-top:12px">நிர்வாகியின் முதல் PIN: 1234. உள்நுழைந்த பிறகு உடனே மாற்றவும். கைரேகை, IN / OUT பதிவு செய்யும்போது மட்டுமே கேட்கப்படும்.</p>
+</section>
+
+<!-- ஊழியர் முகப்பு -->
+<section class="hidden" id="employeeCard">
+ <div class="hero no-print">
+  <div class="hero-top"><div><div class="hi">வணக்கம் 👋</div><h2 id="welcome"></h2><div class="herosub" id="todayDate"></div></div><button class="ghost" onclick="logout()">வெளியேறு</button></div>
+  <div class="chips"><span class="hchip" id="myShift">-</span><span class="hchip" id="myDepartment">-</span><span class="hchip" id="myDesignation">-</span></div>
+ </div>
+
+ <div class="tabs no-print" id="empTabs" style="top:8px"><button class="active" onclick="showEmpTab('main',this)">🏠 Today</button><button onclick="showEmpTab('abs',this)">📑 Abstract</button></div>
+ <div id="empTabMain"><div class="dash-grid no-print">
+  <div class="card punchcard">
+   <h2>⏱ இன்றைய பதிவு</h2>
+   <button id="punchBtn" class="punch in" onclick="doPunch()"><span id="punchIcon">👆</span><b id="punchLabel">IN</b><small id="punchSub">வருகை பதிவு</small></button>
+   <div id="punchState" class="chip">ஏற்றுகிறது…</div>
+   <div id="liveBreak" class="livebreak" data-notr><div class="lbh">TODAY'S BREAKUP <span id="lbTag"></span></div><div class="lbgrid"><div class="lbt"><small>TOTAL WORK HOUR</small><b id="lbTot">0.0</b></div><div class="lbt"><small>WORKING HOUR</small><b id="lbWork">0.0</b></div><div class="lbt ot"><small>OT HOURS</small><b id="lbOt">0.0</b></div></div></div>
+   <div id="remarksBox" class="remarks hidden"><label for="otRemarks">OT காரணம் / குறிப்பு (OT இருந்தால் எழுதவும்)</label><input id="otRemarks" maxlength="120" placeholder="எ.கா: இயந்திரக் கோளாறு, அவசர ஆர்டர்"></div>
+   <div id="punchMsg" class="msg hidden"></div>
+  </div>
+  <div class="card">
+   <h2>📊 <span id="sumTitle">இந்த மாதச் சுருக்கம்</span></h2>
+   <div class="stats">
+    <div class="stat g">வருகை நாட்கள்<strong id="stDays">0</strong></div>
+    <div class="stat">TOTAL மணி<strong id="stTotal">0.0</strong></div>
+    <div class="stat">WORKING மணி<strong id="stHours">0.0</strong></div>
+    <div class="stat a">OT மணி<strong id="stOt">0.00</strong></div>
+   </div>
+   <h3>இன்று</h3>
+   <div class="stats">
+    <div class="stat">IN நேரம்<strong id="todayIn" style="font-size:18px">-</strong></div>
+    <div class="stat">OUT நேரம்<strong id="todayOut" style="font-size:18px">-</strong></div>
+   </div>
+  </div>
+ </div>
+
+ <div id="bioCard" class="biocard no-print hidden"></div>
+
+ <div class="card no-print">
+  <div class="row"><h2>🗓 என் வருகைப் பதிவுகள்</h2><div><input type="month" id="myMonth"><button onclick="loadMyHistory()">காட்டு</button><button class="green" onclick="downloadMyOtMemo()">OT மெமோ PDF</button><button class="light" onclick="downloadMyOtMemoExcel()">Excel</button></div></div>
+  <div class="tablewrap"><table><thead><tr><th>தேதி</th><th>ஷிப்ட்</th><th>IN</th><th>OUT</th><th>TOTAL HRS</th><th>WORKING HRS</th><th>OT HRS</th><th>OT குறிப்பு</th><th>நிலை</th></tr></thead><tbody id="myRows"></tbody></table></div>
+ </div>
+ </div>
+ <div id="empTabAbs" class="hidden no-print">
+  <div class="card">
+   <div class="row"><h2>📑 Attendance Abstract</h2><div><input type="month" id="absMonth"><button onclick="loadAbstract()">Show</button></div></div>
+   <div class="stats" id="absStats"></div>
+   <div class="tablewrap"><table style="min-width:640px"><thead><tr><th>DATE</th><th>DAY</th><th>IN</th><th>OUT</th><th>TOTAL HRS</th><th>WORKING HRS</th><th>OT HRS</th><th>REMARKS</th></tr></thead><tbody id="absRows"></tbody></table></div>
+  </div>
+ </div>
+ <div id="myMemoOutput"></div>
+</section>
+
+<!-- நிர்வாகி -->
+<section class="card hidden" id="adminCard">
+ <div class="row"><h2>🛠 நிர்வாகி முகப்பு</h2><button class="light no-print" onclick="logout()">வெளியேறு</button></div>
+ <div id="adminDashboard">
+ <div class="tabs no-print">
+  <button class="active" onclick="showTab('dashboard',this)">📊 முகப்பு</button>
+  <button onclick="showTab('employees',this)">👥 ஊழியர்கள்</button>
+  <button onclick="showTab('edit',this)">✏ வருகை திருத்தம்</button>
+  <button onclick="showTab('reports',this)">📄 அறிக்கைகள்</button>
+  <button onclick="showTab('salary',this)">💰 சம்பளம்</button>
+  <button onclick="showTab('settings',this)">⚙ அமைப்புகள்</button>
+ </div>
+
+ <div id="tab-dashboard">
+  <div class="row"><h2>இன்று <span class="sub" id="dashDate"></span></h2><button class="light no-print" onclick="loadDashboard()">↻ புதுப்பி</button></div>
+  <div class="stats" id="dashStats"></div>
+  <h3>தற்போது உள்ளே இருப்பவர்கள்</h3>
+  <div class="tablewrap"><table style="min-width:420px"><thead><tr><th>எண்</th><th>பெயர்</th><th>ஷிப்ட்</th><th>IN நேரம்</th></tr></thead><tbody id="inRows"></tbody></table></div>
+  <h3>இன்றைய பதிவுகள்</h3>
+  <div class="tablewrap"><table style="min-width:560px"><thead><tr><th>பெயர்</th><th>ஷிப்ட்</th><th>IN</th><th>OUT</th><th>TOTAL HRS</th><th>WORKING HRS</th><th>OT HRS</th><th>நிலை</th></tr></thead><tbody id="todayRows"></tbody></table></div>
+ </div>
+
+ <div id="tab-employees" class="hidden">
+  <h2>புதிய ஊழியர் சேர்</h2><div class="grid">
+   <div><label>ஊழியர் எண்</label><input id="newId" placeholder="E001" autocomplete="off"></div>
+   <div><label>ஊழியர் பெயர்</label><input id="newName" placeholder="பெயர்" autocomplete="off"></div>
+   <div><label>PIN எண்</label><input id="newPin" type="password" placeholder="குறைந்தது 4 எழுத்துகள்" autocomplete="new-password"></div>
+   <div><label>மாதச் சம்பளம் (₹)</label><input id="newSalary" type="number" value="16483"></div>
+   <div><label>துறை</label><input id="newDepartment" placeholder="எ.கா: உற்பத்தி"></div>
+   <div><label>பதவி</label><input id="newDesignation" placeholder="எ.கா: ஆபரேட்டர்"></div>
+   <div><label>ஷிப்ட்</label><select id="newShift"><option value="A">ஷிப்ட் A – காலை 7:00 முதல் மாலை 3:00 வரை</option><option value="B">ஷிப்ட் B – மாலை 3:00 முதல் இரவு 11:00 வரை</option><option value="C">ஷிப்ட் C – இரவு 11:00 முதல் காலை 7:00 வரை</option><option value="GS">ஷிப்ட் GS – காலை 9:00 முதல் மாலை 5:30 வரை</option></select></div>
+  </div><button onclick="addEmployee()">ஊழியரைச் சேமி</button><div id="empMsg" class="msg hidden"></div>
+  <h2 style="margin-top:22px">ஊழியர் பட்டியல்</h2><div class="tablewrap"><table style="min-width:960px"><thead><tr><th>எண்</th><th>பெயர்</th><th>துறை</th><th>பதவி</th><th>ஷிப்ட்</th><th>மாதச் சம்பளம்</th><th>கைரேகை</th><th>செயலில்</th><th>செயல்கள்</th></tr></thead><tbody id="employeeRows"></tbody></table></div>
+ </div>
+
+ <div id="tab-edit" class="hidden">
+  <h2>வருகைப் பதிவு திருத்தம் <span class="pill in">நிர்வாகி மட்டும்</span></h2>
+  <div class="grid">
+   <div><label>தொடக்கத் தேதி</label><input type="date" id="editFrom"></div>
+   <div><label>முடிவுத் தேதி</label><input type="date" id="editTo"></div>
+   <div><label>ஊழியர்</label><select id="editEmployee"><option value="">அனைத்து ஊழியர்கள்</option></select></div>
+  </div>
+  <button onclick="loadEditList()">பதிவுகளைக் காட்டு</button>
+  <div id="editListMsg" class="msg hidden"></div>
+  <div id="attendanceEditArea" class="card hidden" style="margin-top:14px;border:2px solid #9fd3df">
+   <h3 style="margin-top:0">பதிவைத் திருத்து</h3>
+   <input type="hidden" id="editRowNumber">
+   <div class="grid">
+    <div><label>வேலை நாள்</label><input type="date" id="editWorkDate"></div>
+    <div><label>IN நேரம்</label><input type="time" id="editInTime"></div>
+    <div><label>OUT நேரம்</label><input type="time" id="editOutTime"></div>
+    <div><label>வேலை மணி (நிகர)</label><input type="number" id="editWorkHours" min="0" step="0.01"></div>
+    <div><label>OT மணி</label><input type="number" id="editOtHours" min="0" step="0.01"></div>
+    <div><label>OT காரணம் / குறிப்பு</label><input id="editRemarks" placeholder="OT காரணத்தை எழுதவும்"></div>
+   </div>
+   <button class="green" onclick="saveAttendanceEdit()">மாற்றங்களைச் சேமி</button><button class="light" onclick="cancelAttendanceEdit()">ரத்து செய்</button>
+   <div id="attendanceEditMsg" class="msg hidden"></div>
+  </div>
+  <div id="editOutput" style="margin-top:14px"></div>
+ </div>
+
+ <div id="tab-reports" class="hidden">
+  <div id="nonPrintArea">
+   <h2>வருகை / OT அறிக்கைகள்</h2>
+   <div class="grid">
+    <div><label>தொடக்கத் தேதி</label><input type="date" id="fromDate"></div>
+    <div><label>முடிவுத் தேதி</label><input type="date" id="toDate"></div>
+    <div><label>ஊழியர்</label><select id="reportEmployee"><option value="">அனைத்து ஊழியர்கள்</option></select></div>
+    <div><label>அறிக்கை வகை</label><select id="reportType" onchange="updateReportLabel()"><option value="memo">ஊழியர் OT மெமோ (A4 நிமிர்வு)</option><option value="all">அனைத்து ஊழியர் வருகைப் பதிவு</option></select></div>
+   </div>
+   <button onclick="loadReport()">அறிக்கையைக் காட்டு</button><button class="light" onclick="printReport()">அச்சிடு / PDF சேமி (A4)</button>
+   <p class="sub" id="reportLabel"></p>
+  </div>
+  <div id="reportOutput"></div>
+ </div>
+
+ <div id="tab-salary" class="hidden">
+  <div class="row"><h2>மாதச் சம்பள அறிக்கை</h2><div class="no-print"><input type="month" id="payMonth"><button onclick="loadPayroll()">கணக்கிடு</button><button class="light" onclick="window.print()">அச்சிடு</button></div></div>
+  <p class="sub">OT மணி விகிதம் = மாதச் சம்பளம் ÷ 26 ÷ 8. OT தொகை = OT மணி × OT மணி விகிதம் × பெருக்கி. இந்தப் பதிப்பில் வராத நாட்களுக்கான பிடித்தம் சேர்க்கப்படவில்லை.</p>
+  <div class="tablewrap"><table><thead><tr><th>ஊழியர் எண்</th><th>பெயர்</th><th>மாதச் சம்பளம்</th><th>வருகை நாட்கள்</th><th>OT மணி</th><th>OT தொகை</th><th>மொத்தச் சம்பளம்</th></tr></thead><tbody id="payRows"></tbody></table></div>
+ </div>
+
+ <div id="tab-settings" class="hidden">
+  <h2>அமைப்புகள்</h2><div class="grid"><div><label>புதிய நிர்வாகி PIN</label><input id="newAdminPin" type="password" placeholder="மாற்ற வேண்டாமெனில் காலியாக விடவும்" autocomplete="new-password"></div><div><label>OT பெருக்கி</label><input id="otMultiplier" type="number" min="0" step="0.1" value="1"></div></div>
+  <p class="sub">இடைவேளை விதி: IN நேரம் காலை 9:00 முதல் மதியம் 2:00 வரை இருந்தால் 30 நிமிடம் கழிக்கப்படும். நிகர வேலை நேரம் 8 மணியை விட 2 மணி நேரம் அல்லது அதற்கு மேல் அதிகமாக இருந்தால் மட்டுமே OT கணக்கிடப்படும்.</p>
+  <button onclick="saveSettings()">அமைப்புகளைச் சேமி</button><div id="settingsMsg" class="msg hidden"></div>
+ </div>
+ </div>
+</section>
+</main>
+
+<script>
+/* Apps Script Web App (…/exec) முகவரி. GitHub Pages / Netlify-ல் host செய்தால் இது கட்டாயம். */
+const API_URL='https://script.google.com/macros/s/AKfycbxNs4f5hHwlnTDMe9dlYnuDwq_aSZ1GeKjMWWHTPAPMp361SMlMEUuIqOisaCqevfb3/exec';
+const SESSION_KEY='attn_session',SESSION_HOURS=12;
+const SHIFT_INFO={A:'ஷிப்ட் A • காலை 7:00 – மாலை 3:00',B:'ஷிப்ட் B • மாலை 3:00 – இரவு 11:00',C:'ஷிப்ட் C • இரவு 11:00 – காலை 7:00',GS:'ஷிப்ட் GS • காலை 9:00 – மாலை 5:30'};
+
+let role='',employee=null,secret='',adminPin='',employees=[],adminAttendanceRows=[],myRows=[],punchState='OUT',loginMode='employee',busyCount=0;
+const $=id=>document.getElementById(id);
+function H(v){return (Number(v)||0).toFixed(1)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showMsg(id,t,type){const el=$(id);el.textContent=t;el.className='msg'+(type?' '+type:'');}
+function setBusy(d){busyCount=Math.max(0,busyCount+d);document.body.classList.toggle('busy',busyCount>0)}
+function stTa(s){return({'IN':'உள்ளே','Present':'முடிந்தது','Missed OUT':'OUT விடுபட்டது'})[s]||s||'-'}
+function stCls(r){return r.status==='Missed OUT'?'off':(r.outTime?'ok':'in')}
+function runServer(fn,args,success,failure){
+ setBusy(1);
+ const ok=r=>{setBusy(-1);success(r)},bad=m=>{setBusy(-1);failure(m)};
+ if(window.google&&google.script&&google.script.run){
+  google.script.run.withSuccessHandler(ok).withFailureHandler(e=>bad(e.message||String(e)))[fn](...args);return;
+ }
+ if(!API_URL){bad('சர்வருடன் இணைக்க முடியவில்லை. API_URL முகவரியைச் சேர்க்கவும்.');return}
+ fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args})})
+  .then(r=>r.json()).then(j=>j.ok?ok(j.data):bad(j.error||'சர்வர் பிழை')).catch(e=>bad('இணைய இணைப்பு பிழை: '+e.message));
+}
+function tickClock(){$('hclock').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'})}
+setInterval(tickClock,1000);
+
+/* ---------- அமர்வு (refresh செய்தாலும் வெளியேறாது) ---------- */
+function saveSession(){try{
+ const d={role,ts:Date.now()};
+ if(role==='admin')d.pin=adminPin;else{d.id=employee.id;d.secret=secret}
+ localStorage.setItem(SESSION_KEY,JSON.stringify(d));
+}catch(e){}}
+function clearSession(){try{localStorage.removeItem(SESSION_KEY);sessionStorage.removeItem(SESSION_KEY)}catch(e){}}
+function loadSession(){try{
+ const raw=localStorage.getItem(SESSION_KEY);if(!raw)return null;
+ const d=JSON.parse(raw);
+ if(!d||!d.role||Date.now()-d.ts>SESSION_HOURS*3600000){clearSession();return null}
+ return d;
+}catch(e){return null}}
+function showLogin(msg){
+ $('bootCard').classList.add('hidden');$('loginCard').classList.remove('hidden');
+ $('adminCard').classList.add('hidden');$('employeeCard').classList.add('hidden');
+ if(msg)showMsg('loginMsg',msg,'err');
+}
+function restoreSession(){
+ const s=loadSession();
+ if(!s){showLogin();return}
+ if(s.role==='admin'){
+  runServer('adminLogin',[s.pin],r=>{
+   if(!r.ok){clearSession();showLogin();return}
+   role='admin';adminPin=s.pin;showApp(true);
+  },e=>showLogin(e));
+ }else{
+  runServer('employeeLogin',[s.id,s.secret],r=>{
+   if(!r.ok){clearSession();showLogin();return}
+   role='employee';employee=r.employee;secret=s.secret;showApp(true);
+  },e=>showLogin(e));
+ }
+}
+
+/* ---------- கைரேகை (WebAuthn) - IN / OUT பதிவின் போது மட்டும் ---------- */
+const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+const isFile=location.protocol==='file:'||!location.hostname;
+const bioSupported=!!(window.PublicKeyCredential&&navigator.credentials&&window.isSecureContext&&!inFrame&&!isFile);
+function bioWhyNot(){
+ if(isFile)return 'இந்த HTML கோப்பை நேரடியாகத் திறந்துள்ளீர்கள் (file://). கைரேகை வேலை செய்ய GitHub Pages / Netlify போன்ற https:// முகவரியில் திறக்கவும்.';
+ if(inFrame)return 'இந்தப் பக்கம் Apps Script-க்குள் (iframe) திறந்துள்ளது; இதில் கைரேகை தடுக்கப்படும். https:// முகவரியில் நேரடியாகத் திறக்கவும்.';
+ if(!window.isSecureContext)return 'https:// முகவரியில் திறக்கவும் (http-ல் கைரேகை வேலை செய்யாது).';
+ if(!window.PublicKeyCredential)return 'இந்த உலாவியில் கைரேகை வசதி இல்லை. Chrome (Android) அல்லது Safari (iPhone) பயன்படுத்தவும்.';
+ return 'போனில் திரைப் பூட்டை (கைரேகை / முகம் / PIN) அமைத்துவிட்டுப் பிறகு முயற்சிக்கவும்.';
+}
+const b64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf)));
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+const bioKey=id=>'attn_bio_'+String(id).trim().toUpperCase();
+function getBio(id){try{return id?JSON.parse(localStorage.getItem(bioKey(id))||'null'):null}catch(e){return null}}
+function setBio(id,v){try{v?localStorage.setItem(bioKey(id),JSON.stringify(v)):localStorage.removeItem(bioKey(id))}catch(e){}}
+async function bioAvailable(){
+ if(!bioSupported)return false;
+ try{return await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()}catch(e){return false}
+}
+function bioErr(e){
+ const n=e&&e.name;
+ if(n==='NotAllowedError')return 'ஸ்கேன் ரத்தானது அல்லது இந்தப் பக்கத்தில் கைரேகைக்கு அனுமதி இல்லை.';
+ if(n==='SecurityError')return 'இந்தப் பக்கத்தில் கைரேகை தடுக்கப்பட்டுள்ளது (https:// தேவை).';
+ if(n==='InvalidStateError')return 'இந்த போனில் ஏற்கனவே பதிவு செய்யப்பட்டுள்ளது.';
+ return (e&&e.message)||String(e);
+}
+async function bioEnroll(){
+ try{
+  if(!(await bioAvailable())){showMsg('punchMsg',bioWhyNot(),'err');return}
+  if(role!=='employee'||!employee)return;
+  showMsg('punchMsg','போனில் கைரேகை / முகத்தை ஸ்கேன் செய்யுங்கள்…');
+  const cred=await navigator.credentials.create({publicKey:{
+   challenge:crypto.getRandomValues(new Uint8Array(32)),
+   rp:{name:'Subam Papers Attendance',id:location.hostname},
+   user:{id:new TextEncoder().encode(employee.id),name:employee.id,displayName:employee.name},
+   pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],
+   authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
+   timeout:60000,attestation:'none'}});
+  runServer('enrollDevice',[employee.id,secret,navigator.userAgent],r=>{
+   setBio(employee.id,{cred:b64(cred.rawId),token:r.token});
+   showMsg('punchMsg','கைரேகை / முகப் பாதுகாப்பு இந்த போனில் இயக்கப்பட்டது ✅','ok');renderBioCard();
+  },e=>showMsg('punchMsg','இயக்க முடியவில்லை: '+e,'err'));
+ }catch(e){showMsg('punchMsg',bioErr(e),'err')}
+}
+async function bioVerify(id){
+ const b=getBio(id);if(!b)throw new Error('இந்த போனில் கைரேகை இயக்கப்படவில்லை.');
+ await navigator.credentials.get({publicKey:{
+  challenge:crypto.getRandomValues(new Uint8Array(32)),
+  allowCredentials:[{type:'public-key',id:unb64(b.cred),transports:['internal']}],
+  userVerification:'required',timeout:60000}});
+ return b.token;
+}
+function bioRemove(){if(confirm('இந்த போனில் கைரேகைப் பாதுகாப்பை நீக்கலாமா?')){setBio(employee.id,null);renderBioCard()}}
+async function renderBioCard(){
+ const el=$('bioCard'),b=getBio(employee.id),ok=await bioAvailable();
+ if(b){el.innerHTML='<span>✅ இந்த போனில் கைரேகை / முகப் பாதுகாப்பு இயக்கத்தில் உள்ளது (IN / OUT-ன் போது ஸ்கேன் கேட்கும்)</span><button class="light sm" onclick="bioRemove()">நீக்கு</button>';el.classList.remove('hidden')}
+ else if(ok){el.innerHTML='<span>👆 கைரேகை / முகம் மூலம் IN / OUT பதிவு பாதுகாப்பாக்குங்கள்</span><button class="sm" onclick="bioEnroll()">இயக்கு</button>';el.classList.remove('hidden')}
+ else{el.innerHTML='<span class="sub">⚠ '+esc(bioWhyNot())+'</span>';el.classList.remove('hidden')}
+}
+
+/* ---------- உள்நுழைவு ---------- */
+function setMode(m){
+ loginMode=m;$('segEmp').classList.toggle('active',m==='employee');$('segAdmin').classList.toggle('active',m==='admin');
+ $('empIdArea').classList.toggle('hidden',m==='admin');$('loginMsg').classList.add('hidden');
+}
+function togglePin(){const p=$('pin');p.type=p.type==='password'?'text':'password'}
+function login(){
+ const pin=$('pin').value;
+ if(!pin){showMsg('loginMsg','PIN எண்ணை உள்ளிடவும்.','err');return}
+ if(loginMode==='admin'){
+  runServer('adminLogin',[pin],r=>{if(!r.ok){showMsg('loginMsg',r.message,'err');return}role='admin';adminPin=pin;showApp()},e=>showMsg('loginMsg',e,'err'));
+ }else{
+  const id=$('empId').value.trim();
+  if(!id){showMsg('loginMsg','ஊழியர் எண்ணை உள்ளிடவும்.','err');return}
+  runServer('employeeLogin',[id,pin],r=>{if(!r.ok){showMsg('loginMsg',r.message,'err');return}role='employee';employee=r.employee;secret=pin;showApp()},e=>showMsg('loginMsg',e,'err'));
+ }
+}
+function todayIso(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function monthNow(){return todayIso().slice(0,7)}
+function showApp(restored){
+ if(!restored)saveSession();
+ $('bootCard').classList.add('hidden');$('loginCard').classList.add('hidden');$('loginMsg').classList.add('hidden');$('pin').value='';$('empId').value='';
+ if(role==='admin'){
+  $('adminCard').classList.remove('hidden');$('employeeCard').classList.add('hidden');
+  loadEmployees();loadDashboard();loadSettings();
+ }else{
+  $('employeeCard').classList.remove('hidden');$('adminCard').classList.add('hidden');
+  $('welcome').textContent=employee.name;$('myShift').textContent=SHIFT_INFO[employee.shift]||('ஷிப்ட் '+employee.shift);
+  $('myDepartment').textContent='🏷 '+(employee.department||'-');$('myDesignation').textContent='💼 '+(employee.designation||'-');
+  $('todayDate').textContent=new Date().toLocaleDateString('ta-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  $('myMonth').value=monthNow();$('punchMsg').classList.add('hidden');$('otRemarks').value='';loadMyHistory();renderBioCard();
+ }
+}
+function logout(){
+ clearSession();role='';employee=null;secret='';adminPin='';
+ $('pin').value='';$('empId').value='';$('reportOutput').innerHTML='';$('editOutput').innerHTML='';
+ showLogin();
+}
+
+/* ---------- ஊழியர்: பதிவு + வரலாறு ---------- */
+function updatePunchUI(){
+ const open=punchState==='IN';
+ $('punchBtn').className='punch '+(open?'out':'in');$('punchLabel').textContent=open?'OUT':'IN';
+ $('punchSub').textContent=open?'புறப்பாடு பதிவு':'வருகை பதிவு';$('punchIcon').textContent=open?'🏁':'👆';
+ $('punchState').className='chip '+(open?'in':'done');
+ $('remarksBox').classList.toggle('hidden',!open);
+}
+async function doPunch(){
+ const action=punchState==='IN'?'OUT':'IN';
+ let sec=secret;
+ if(getBio(employee.id)&&await bioAvailable()){
+  try{showMsg('punchMsg','கைரேகை / முகத்தை ஸ்கேன் செய்யுங்கள்…');sec=await bioVerify(employee.id)}
+  catch(e){showMsg('punchMsg','ஸ்கேன் தோல்வி: '+bioErr(e),'err');return}
+ }
+ $('punchBtn').disabled=true;
+ const remarks=action==='OUT'?$('otRemarks').value.trim():'';
+ runServer('punch',[employee.id,sec,action,navigator.userAgent,remarks],r=>{
+  $('punchBtn').disabled=false;$('otRemarks').value='';
+  let detail=r.time?('நேரம்: '+r.time):'';
+  if(action==='OUT'&&r.netHours!==undefined)detail+=' • நிகர வேலை: '+r.netHours+' மணி • இடைவேளை: '+r.breakMinutes+' நிமிடம் • OT: '+r.otHours+' மணி';
+  showMsg('punchMsg',r.message+(detail?' ('+detail+')':''),'ok');$('myMonth').value=monthNow();loadMyHistory();
+ },e=>{$('punchBtn').disabled=false;showMsg('punchMsg',e,'err')});
+}
+function loadMyHistory(){
+ const month=$('myMonth').value||monthNow();
+ runServer('getMyHistory',[employee.id,secret,month],rows=>{
+  myRows=rows;
+  $('myRows').innerHTML=rows.map(r=>`<tr><td>${esc(r.workDate)}</td><td>${esc(r.shift)}</td><td>${esc(r.inTime)}</td><td>${esc(r.outTime)}</td><td>${H(r.totalHours)}</td><td>${H(r.workHours)}</td><td>${H(r.otHours)}</td><td>${esc(r.reason||'')}</td><td><span class="pill ${stCls(r)}">${esc(stTa(r.status))}</span></td></tr>`).join('')||'<tr><td colspan="9" class="sub">இந்த மாதத்திற்கு பதிவுகள் இல்லை.</td></tr>';
+  $('stDays').textContent=new Set(rows.filter(r=>r.inTime).map(r=>r.workDate)).size;
+  $('stTotal').textContent=H(rows.reduce((s,r)=>s+(+r.totalHours||0),0));
+  $('stHours').textContent=H(rows.reduce((s,r)=>s+(+r.workHours||0),0));
+  $('stOt').textContent=H(rows.reduce((s,r)=>s+(+r.otHours||0),0));
+  $('sumTitle').textContent=month===monthNow()?'இந்த மாதச் சுருக்கம்':(month+' மாதச் சுருக்கம்');
+  if(month===monthNow()){
+   const open=rows.slice().reverse().find(r=>r.inTime&&!r.outTime);
+   const todayRow=rows.slice().reverse().find(r=>r.workDate===todayIso());
+   punchState=open?'IN':'OUT';updatePunchUI();
+   $('punchState').textContent=open?('IN செய்த நேரம்: '+open.inTime+' (உள்ளே உள்ளீர்கள்)'):(todayRow&&todayRow.outTime?'இன்றைய OUT: '+todayRow.outTime:'இன்னும் IN செய்யவில்லை');
+   const ref=open||todayRow;
+   $('todayIn').textContent=ref&&ref.inTime?ref.inTime:'-';$('todayOut').textContent=ref&&ref.outTime?ref.outTime:'-';
+  }
+ },e=>showMsg('punchMsg',e,'err'));
+}
+
+/* ---------- நிர்வாகி: முகப்பு ---------- */
+function loadDashboard(){
+ $('dashDate').textContent='• '+new Date().toLocaleDateString('ta-IN',{day:'numeric',month:'short',year:'numeric'});
+ runServer('getAdminDashboard',[adminPin],d=>{
+  $('dashStats').innerHTML=[['மொத்த ஊழியர்கள்',d.totalEmployees,''],['இன்று வருகை',d.presentToday,'g'],['தற்போது உள்ளே',d.currentlyIn.length,'a'],['இன்று வராதவர்',d.absentToday,'r'],['இந்த மாத OT (மணி)',H(d.monthOt),'']].map(s=>`<div class="stat ${s[2]}">${s[0]}<strong>${s[1]}</strong></div>`).join('');
+  $('inRows').innerHTML=d.currentlyIn.map(r=>`<tr><td>${esc(r.id)}</td><td>${esc(r.name)}</td><td>${esc(r.shift)}</td><td><span class="pill in">${esc(r.inTime)}</span></td></tr>`).join('')||'<tr><td colspan="4" class="sub">தற்போது யாரும் உள்ளே இல்லை.</td></tr>';
+  $('todayRows').innerHTML=d.todayRows.map(r=>`<tr><td>${esc(r.employeeName)}</td><td>${esc(r.shift)}</td><td>${esc(r.inTime)}</td><td>${esc(r.outTime)}</td><td>${H(r.totalHours)}</td><td>${H(r.workHours)}</td><td>${H(r.otHours)}</td><td><span class="pill ${stCls(r)}">${esc(stTa(r.status))}</span></td></tr>`).join('')||'<tr><td colspan="8" class="sub">இன்று இதுவரை பதிவுகள் இல்லை.</td></tr>';
+ },e=>alert(e));
+}
+
+/* ---------- நிர்வாகி: ஊழியர்கள் ---------- */
+function loadEmployees(){
+ runServer('listEmployees',[adminPin],rows=>{
+  employees=rows;
+  $('employeeRows').innerHTML=rows.map(e=>`<tr><td>${esc(e.id)}</td><td>${esc(e.name)}</td><td>${esc(e.department||'')}</td><td>${esc(e.designation||'')}</td><td>${esc(e.shift)}</td><td>₹${e.salary.toFixed(2)}</td><td><span class="pill ${e.biometric?'ok':''}">${e.biometric?'இயக்கத்தில்':'இல்லை'}</span></td><td><span class="pill ${e.active?'ok':'off'}">${e.active?'ஆம்':'இல்லை'}</span></td><td><button class="light sm" onclick="toggleEmp('${esc(e.id)}',${e.active?0:1})">${e.active?'முடக்கு':'இயக்கு'}</button><button class="light sm" onclick="resetPin('${esc(e.id)}')">PIN மாற்று</button>${e.biometric?`<button class="light sm" onclick="resetBio('${esc(e.id)}')">கைரேகை நீக்கு</button>`:''}</td></tr>`).join('');
+  const opts='<option value="">அனைத்து ஊழியர்கள்</option>'+rows.filter(e=>e.active).map(e=>`<option value="${esc(e.id)}">${esc(e.name)} (${esc(e.id)})</option>`).join('');
+  $('reportEmployee').innerHTML=opts;$('editEmployee').innerHTML=opts;
+ },e=>showMsg('empMsg',e,'err'));
+}
+function addEmployee(){
+ const d={id:$('newId').value,name:$('newName').value,pin:$('newPin').value,salary:$('newSalary').value,shift:$('newShift').value,department:$('newDepartment').value,designation:$('newDesignation').value};
+ runServer('addEmployee',[d,adminPin],()=>{showMsg('empMsg','ஊழியர் வெற்றிகரமாகச் சேமிக்கப்பட்டார் ✅','ok');['newId','newName','newPin','newDepartment','newDesignation'].forEach(x=>$(x).value='');loadEmployees()},e=>showMsg('empMsg',e,'err'));
+}
+function toggleEmp(id,active){runServer('setEmployeeActive',[adminPin,id,!!active],()=>{showMsg('empMsg',active?'ஊழியர் இயக்கப்பட்டார் ✅':'ஊழியர் முடக்கப்பட்டார் ✅','ok');loadEmployees()},e=>showMsg('empMsg',e,'err'))}
+function resetPin(id){const p=prompt(id+' க்கான புதிய PIN (குறைந்தது 4 எழுத்துகள்):');if(p)runServer('resetEmployeePin',[adminPin,id,p],()=>showMsg('empMsg','PIN வெற்றிகரமாக மாற்றப்பட்டது ✅','ok'),e=>showMsg('empMsg',e,'err'))}
+function resetBio(id){if(confirm(id+' - இவரின் அனைத்து போன்களின் கைரேகைப் பதிவையும் நீக்கலாமா?'))runServer('resetEmployeeDevices',[adminPin,id],()=>{showMsg('empMsg','கைரேகைப் பதிவுகள் நீக்கப்பட்டன ✅','ok');loadEmployees()},e=>showMsg('empMsg',e,'err'))}
+function showTab(name,btn){
+ ['dashboard','employees','edit','reports','salary','settings'].forEach(n=>$('tab-'+n).classList.toggle('hidden',n!==name));
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+ if(name==='dashboard')loadDashboard();
+}
+
+/* ---------- நிர்வாகி: வருகை திருத்தம் (நிர்வாகி மட்டும்) ---------- */
+function loadEditList(){
+ const f={from:$('editFrom').value,to:$('editTo').value,employee:$('editEmployee').value};
+ runServer('getAdminReport',[adminPin,f],rows=>{
+  adminAttendanceRows=rows;
+  $('editOutput').innerHTML=attendanceReportHtml(rows,true);
+  $('editListMsg').classList.add('hidden');
+ },e=>showMsg('editListMsg',e,'err'));
+}
+function startEditAttendance(rowNumber){
+ const r=adminAttendanceRows.find(x=>Number(x.rowNumber)===Number(rowNumber));if(!r)return;
+ $('editRowNumber').value=r.rowNumber;$('editWorkDate').value=r.workDate;
+ $('editInTime').value=timeInputValue(r.inTime);$('editOutTime').value=timeInputValue(r.outTime);
+ $('editWorkHours').value=Number(r.workHours||r.netHours||0).toFixed(2);$('editOtHours').value=Number(r.otHours||0).toFixed(2);
+ $('editRemarks').value=r.remarks||r.reason||'';$('attendanceEditArea').classList.remove('hidden');$('attendanceEditMsg').classList.add('hidden');
+ $('attendanceEditArea').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function cancelAttendanceEdit(){$('attendanceEditArea').classList.add('hidden')}
+function saveAttendanceEdit(){
+ const d={rowNumber:$('editRowNumber').value,workDate:$('editWorkDate').value,inTime:$('editInTime').value,outTime:$('editOutTime').value,workHours:$('editWorkHours').value,otHours:$('editOtHours').value,remarks:$('editRemarks').value};
+ runServer('updateAttendanceRecord',[adminPin,d],()=>{
+  cancelAttendanceEdit();showMsg('editListMsg','வருகைப் பதிவு வெற்றிகரமாகத் திருத்தப்பட்டது ✅','ok');loadEditList();
+  $('editListMsg').className='msg ok';
+ },e=>showMsg('attendanceEditMsg',e,'err'));
+}
+function timeInputValue(v){
+ if(!v)return '';const s=String(v).trim();let m=s.match(/^(\d{1,2}):(\d{2})(?::\d{2})?\s*(AM|PM)$/i);
+ if(m){let h=Number(m[1])%12;if(m[3].toUpperCase()==='PM')h+=12;return String(h).padStart(2,'0')+':'+m[2];}
+ m=s.match(/^(\d{1,2}):(\d{2})/);return m?String(Number(m[1])).padStart(2,'0')+':'+m[2]:'';
+}
+function attendanceReportHtml(rows,withEdit){
+ return `<h3>வருகைப் பதிவுகள் (${rows.length})</h3><div class="tablewrap"><table><thead><tr><th>தேதி</th><th>ஊழியர் எண்</th><th>பெயர்</th><th>ஷிப்ட்</th><th>IN</th><th>OUT</th><th>TOTAL HRS</th><th>WORKING HRS</th><th>OT HRS</th><th>OT குறிப்பு</th><th>ஞாயிறு</th><th>நிலை</th>${withEdit?'<th>திருத்து</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.workDate)}</td><td>${esc(r.employeeId)}</td><td>${esc(r.employeeName)}</td><td>${esc(r.shift)}</td><td>${esc(r.inTime)}</td><td>${esc(r.outTime)}</td><td>${H(r.totalHours!=null?r.totalHours:r.workHours)}</td><td>${H(r.workHours||r.netHours)}</td><td>${H(r.otHours)}</td><td>${esc(r.remarks||r.reason||'')}</td><td>${r.isSunday==='Yes'?'ஆம்':'இல்லை'}</td><td>${esc(stTa(r.status))}</td>${withEdit?`<td><button class="light sm" onclick="startEditAttendance(${r.rowNumber})">✏ திருத்து</button></td>`:''}</tr>`).join('')||`<tr><td colspan="${withEdit?13:12}" class="sub">பதிவுகள் எதுவும் இல்லை.</td></tr>`}</tbody></table></div>`;
+}
+
+/* ---------- நிர்வாகி: அறிக்கைகள் + OT மெமோ ---------- */
+function updateReportLabel(){
+ $('reportLabel').textContent=$('reportType').value==='memo'?'ஊழியரைத் தேர்ந்தெடுத்தால் அவருக்கான OT மெமோ. தேர்ந்தெடுக்காவிட்டால் அனைத்து ஊழியர்களுக்கும் தனித்தனி மெமோ.':'தேர்ந்தெடுத்த தேதி வரம்பில் உள்ள அனைத்து வருகைப் பதிவுகளும்.';
+}
+function loadReport(){
+ const filters={from:$('fromDate').value,to:$('toDate').value,employee:$('reportEmployee').value};
+ runServer('getAdminReport',[adminPin,filters],rows=>{
+  if($('reportType').value==='memo'){
+   const selected=filters.employee?employees.filter(e=>e.id===filters.employee):employees.filter(e=>e.active);
+   $('reportOutput').innerHTML=selected.map(e=>memoHtml(e,rows.filter(r=>r.employeeId===e.id))).join('<div class="page-break"></div>');
+  }else{
+   $('reportOutput').innerHTML=attendanceReportHtml(rows,false);
+  }
+ },e=>alert(e));
+}
+function dateParts(iso){const p=iso.split('-');return new Date(Number(p[0]),Number(p[1])-1,Number(p[2]))}
+function dayName(iso){return dateParts(iso).toLocaleDateString('en-US',{weekday:'short'})}
+function displayDate(iso){const p=iso.split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+function memoHtml(emp,rows,rangeFrom=null,rangeTo=null){
+ rows.sort((a,b)=>a.workDate.localeCompare(b.workDate));
+ const first=rows[0]?.workDate||$('fromDate').value||new Date().toISOString().slice(0,10);
+ const monthLabel=dateParts(first).toLocaleDateString('en-US',{month:'short',year:'2-digit'});
+ const total=rows.reduce((s,r)=>s+(+r.otHours||0),0);const totalWork=rows.reduce((s,r)=>s+(+(r.workHours||r.netHours)||0),0),totalAll=rows.reduce((s,r)=>s+(+(r.totalHours!=null?r.totalHours:r.workHours)||0),0);
+ const map={};rows.forEach(r=>map[r.workDate]=r);
+ let dates=[];
+ const from=rangeFrom||$('fromDate')?.value||(first.slice(0,7)+'-01');
+ const to=rangeTo||$('toDate')?.value||(first.slice(0,7)+'-'+String(new Date(Number(first.slice(0,4)),Number(first.slice(5,7)),0).getDate()).padStart(2,'0'));
+ let d=dateParts(from),end=dateParts(to);
+ while(d<=end&&dates.length<62){const iso=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');dates.push(iso);d.setDate(d.getDate()+1)}
+ const body=dates.map(iso=>{
+  const r=map[iso],sun=dayName(iso)==='Sun';
+  const work=r?H(r.workHours||r.netHours):'',tot=r?H(r.totalHours!=null?r.totalHours:r.workHours):'';
+  return `<tr><td>${displayDate(iso)}</td><td class="${sun?'sun':''}">${dayName(iso)}</td><td>${r?esc(r.inTime):''}</td><td>-</td><td>${r?esc(r.outTime):''}</td><td>${tot}</td><td>${work}</td><td>${r?H(r.otHours):''}</td><td class="remark">${r?esc(r.reason):''}</td></tr>`;
+ }).join('');
+ return `<div class="memo">
+ <div class="memo-head">SUBAM PAPERS LTD - OT MEMO</div>
+ <table class="memo-info"><tr><td class="key">EMP. NO :</td><td>${esc(emp.id)}</td><td class="key">DEPARTMENT :</td><td>${esc(emp.department||'')}</td></tr><tr><td class="key">NAME :</td><td>${esc(emp.name)}</td><td class="key">DESIGNATION :</td><td>${esc(emp.designation||'')}</td></tr></table>
+ <div class="memo-month">${esc(monthLabel)}</div>
+ <table class="memo-table"><colgroup><col style="width:12%"><col style="width:7%"><col style="width:12%"><col style="width:4%"><col style="width:12%"><col style="width:10%"><col style="width:10%"><col style="width:9%"><col style="width:24%"></colgroup>
+ <thead><tr><th>DATE</th><th>DAY</th><th>START TIME</th><th>TO</th><th>END TIME</th><th>TOTAL WORK HOUR</th><th>WORKING HOUR</th><th>OT HOURS</th><th>REASON / REMARKS</th></tr></thead>
+ <tbody>${body}<tr class="memo-total"><td></td><td></td><td></td><td></td><td>TOTAL</td><td>${H(totalAll)}</td><td>${H(totalWork)}</td><td>${H(total)}</td><td></td></tr></tbody></table></div>`;
+}
+function downloadMyOtMemo(){
+ const month=$('myMonth').value;
+ if(!month){alert('முதலில் மாதத்தைத் தேர்ந்தெடுக்கவும்.');return;}
+ runServer('getMyHistory',[employee.id,secret,month],rows=>{
+  const parts=month.split('-');
+  const from=month+'-01';
+  const lastDay=new Date(Number(parts[0]),Number(parts[1]),0).getDate();
+  const to=month+'-'+String(lastDay).padStart(2,'0');
+  $('myMemoOutput').innerHTML=memoHtml(employee,rows,from,to);
+  if(!rows.length)alert('இந்த மாதத்திற்கு OT / வருகைப் பதிவு இல்லை.');
+  const clearPrintMode=()=>document.body.classList.remove('print-my-memo');
+  window.addEventListener('afterprint',clearPrintMode,{once:true});
+  document.body.classList.add('print-my-memo');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
+ },e=>alert(e));
+}
+function downloadMyOtMemoExcel(){
+ const month=$('myMonth').value;
+ if(!month){alert('முதலில் மாதத்தைத் தேர்ந்தெடுக்கவும்.');return;}
+ runServer('getMyHistory',[employee.id,secret,month],rows=>{
+  const [yy,mm]=month.split('-').map(Number);
+  const lastDay=new Date(yy,mm,0).getDate();
+  const byDate={};rows.forEach(r=>byDate[r.workDate]=r);
+  const monthLabel=new Date(yy,mm-1,1).toLocaleDateString('en-US',{month:'short',year:'2-digit'});
+  const total=rows.reduce((sum,r)=>sum+(Number(r.otHours)||0),0);const totalWork=rows.reduce((sum,r)=>sum+(Number(r.workHours||r.netHours)||0),0),totalAll=rows.reduce((sum,r)=>sum+(Number(r.totalHours!=null?r.totalHours:r.workHours)||0),0);
+  const safe=v=>esc(v==null?'':v);
+  let body='';
+  for(let day=1;day<=lastDay;day++){
+   const iso=month+'-'+String(day).padStart(2,'0');
+   const dt=new Date(yy,mm-1,day),r=byDate[iso];
+   const dn=dt.toLocaleDateString('en-US',{weekday:'short'});
+   body+=`<tr><td>${String(day).padStart(2,'0')}/${String(mm).padStart(2,'0')}/${yy}</td><td class="${dn==='Sun'?'sun':''}">${dn}</td><td>${r?safe(r.inTime):''}</td><td>TO</td><td>${r?safe(r.outTime):''}</td><td>${r?H(r.totalHours!=null?r.totalHours:r.workHours):''}</td><td>${r?H(r.workHours||r.netHours):''}</td><td>${r?H(r.otHours):''}</td><td>${r?safe(r.reason||''):''}</td></tr>`;
+  }
+  const html=`<html><head><meta charset="UTF-8"><style>
+  body{font-family:Calibri,Arial,sans-serif;color:#000}table{border-collapse:collapse;width:100%;table-layout:fixed;font-family:Calibri,Arial,sans-serif}
+  td,th{border:1px solid #000;padding:5px;font-size:11pt;text-align:center;vertical-align:middle}
+  .title{font-size:16pt;font-weight:bold;background:#9fdbe5;text-align:center;padding:9px}
+  .month{font-size:13pt;font-weight:bold;background:#9fdbe5;text-align:center}
+  .key{text-align:left;font-weight:bold;width:16%}.head th{background:#9fdbe5;font-weight:bold}.sun{background:#fff2a6;font-weight:bold}.remark{text-align:left}.total td{font-weight:bold}
+  </style></head><body><table>
+  <tr><td colspan="9" class="title">SUBAM PAPERS LTD - OT MEMO</td></tr>
+  <tr><td class="key">EMP. NO :</td><td colspan="2">${safe(employee.id)}</td><td class="key">DEPARTMENT :</td><td colspan="5">${safe(employee.department||'')}</td></tr>
+  <tr><td class="key">NAME :</td><td colspan="2">${safe(employee.name)}</td><td class="key">DESIGNATION :</td><td colspan="5">${safe(employee.designation||'')}</td></tr>
+  <tr><td colspan="9" class="month">${monthLabel}</td></tr>
+  <tr class="head"><th>DATE</th><th>DAY</th><th>START TIME</th><th>TO</th><th>END TIME</th><th>TOTAL WORK HOUR</th><th>WORKING HOUR</th><th>OT HOURS</th><th>REASON / REMARKS</th></tr>
+  ${body}<tr class="total"><td colspan="5">TOTAL</td><td>${H(totalAll)}</td><td>${H(totalWork)}</td><td>${H(total)}</td><td></td></tr></table></body></html>`;
+  const blob=new Blob(['﻿',html],{type:'application/vnd.ms-excel;charset=utf-8;'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=`OT_MEMO_${String(employee.id).replace(/[^a-z0-9_-]/gi,'_')}_${month}.xls`;
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+ },e=>alert(e));
+}
+function printReport(){
+ if(!$('reportOutput').innerHTML.trim()){alert('முதலில் "அறிக்கையைக் காட்டு" அழுத்தவும்.');return}
+ window.print();
+}
+
+/* ---------- நிர்வாகி: சம்பளம் + அமைப்புகள் ---------- */
+function loadPayroll(){
+ runServer('getPayroll',[adminPin,$('payMonth').value],rows=>{
+  $('payRows').innerHTML=rows.map(r=>`<tr><td>${esc(r.id)}</td><td>${esc(r.name)}</td><td>₹${r.monthlySalary.toFixed(2)}</td><td>${r.presentDays}</td><td>${H(r.otHours)}</td><td>₹${r.otPay.toFixed(2)}</td><td><b>₹${r.gross.toFixed(2)}</b></td></tr>`).join('')||'<tr><td colspan="7" class="sub">தரவு இல்லை.</td></tr>';
+ },e=>alert(e));
+}
+function loadSettings(){runServer('getSettings',[adminPin],s=>{$('otMultiplier').value=s.otMultiplier},()=>{})}
+function saveSettings(){
+ runServer('updateSettings',[adminPin,$('newAdminPin').value,$('otMultiplier').value],()=>{
+  if($('newAdminPin').value){adminPin=$('newAdminPin').value;$('newAdminPin').value='';saveSession()}
+  showMsg('settingsMsg','அமைப்புகள் வெற்றிகரமாகச் சேமிக்கப்பட்டன ✅','ok');
+ },e=>showMsg('settingsMsg',e,'err'));
+}
+
+/* ---------- தொடக்கம் ---------- */
+window.addEventListener('load',()=>{
+ tickClock();
+ try{localStorage.removeItem('attn_last_id')}catch(e){}
+ const m=monthNow(),t=todayIso();
+ $('myMonth').value=m;$('payMonth').value=m;
+ $('fromDate').value=m+'-01';$('toDate').value=t;$('editFrom').value=m+'-01';$('editTo').value=t;
+ updateReportLabel();
+ restoreSession();
+});
+</script>
+<script>
+/* ===== Patch: correct hours / break / OT calculation + Tamil-English toggle ===== */
+(function(){
+/* ---- 1. Calculation rules (change here if needed) ---- */
+const RULE={std:8,minOt:2,breakMin:30,bFrom:9*60,bTo:14*60};
+/* Special IDs: IN at/before 09:30 AM and OUT at/after 07:15 PM => fixed 10 hrs = 8 work + 2 OT */
+/* >>> Special employees: paste their Employee IDs here (same IDs as in the Google Sheet), e.g. ['E001','E007'] <<< */
+let FIXED_IDS=[]; /* filled automatically from the Google Sheet (Settings -> FixedIds) */
+/* Rule for them: IN between 09:00-09:30 AM AND OUT between 07:15-07:30 PM => TOTAL 10 / WORKING 8 / OT 2 */
+let FIX_IN_MIN=9*60,FIX_IN_MAX=9*60+30,FIX_OUT_MIN=19*60+15,FIX_OUT_MAX=19*60+30; /* defaults; overwritten from Settings sheet */
+const rowEmp={};
+const TRUST_SERVER=false; /* new Code.gs calculates hours/OT itself; set false only with the OLD Code.gs */
+function tmin(s){const m=String(s||'').trim().match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*([AaPp][Mm])?/);if(!m)return null;let h=+m[1];const ap=m[3]&&m[3].toUpperCase();if(ap){h%=12;if(ap==='PM')h+=12}return h*60+ +m[2]}
+function calcMin(a,b,id){
+ if(a==null||b==null)return null;
+ if(id&&FIXED_IDS.indexOf(String(id).trim().toUpperCase())>=0&&a>=FIX_IN_MIN&&a<=FIX_IN_MAX&&b>=FIX_OUT_MIN&&b<=FIX_OUT_MAX)return{tot:10,net:8,ot:2,br:0};
+ let g=b-a;if(g<0)g+=1440;
+ const br=(a>=RULE.bFrom&&a<=RULE.bTo)?RULE.breakMin:0;
+ const tot=Math.max(0,g-br)/60,work=Math.min(tot,RULE.std),ex=tot-RULE.std;
+ /* tot = total work hour, net = working hour (max 8), ot = overtime (only if >= minOt) */
+ return{tot:+tot.toFixed(2),net:+work.toFixed(2),ot:ex>=RULE.minOt?+ex.toFixed(2):0,br}}
+window.calcMin=calcMin;
+window.calcDay=function(i,o,id){return calcMin(tmin(i),tmin(o),id)};
+/* server (Google Sheet) values are the truth: WorkHours = total hrs, OTHours = OT. Working = max 8 */
+function srv(o){const ot=+o.otHours||0;let tot=+(o.workHours!=null?o.workHours:o.netHours)||0;if(ot>0)tot=Math.max(tot,8+ot);return{tot:+tot.toFixed(2),net:+Math.min(tot,8).toFixed(2),ot:ot,br:+o.breakMinutes||0}}
+function fix(o){if(!o||typeof o!=='object')return;if(Array.isArray(o)){o.forEach(fix);return}
+ if('inTime' in o&&o.outTime&&!o.__fx){o.__fx=1;if(o.rowNumber!=null)rowEmp[o.rowNumber]=o.employeeId;const c=srv(o);if(c){o.totalHours=c.tot;o.netHours=c.net;o.workHours=c.net;o.otHours=c.ot;o.breakMinutes=c.br}}
+ Object.keys(o).forEach(k=>{if(o[k]&&typeof o[k]==='object')fix(o[k])})}
+const _rs=runServer,HAS=/[\u0B80-\u0BFF]/;
+runServer=function(fn,args,ok,bad){
+ if(TRUST_SERVER&&fn!=='punch')return _rs(fn,args,ok,bad);
+ if(fn==='punch')return _rs(fn,args,r=>{if(r){if(!TRUST_SERVER&&args[2]==='OUT'&&r.time){const op=(myRows||[]).slice().reverse().find(x=>x.inTime&&!x.outTime),c=op&&srv(r);if(c){r.totalHours=c.tot;r.netHours=c.net;r.otHours=c.ot;r.breakMinutes=c.br}}
+  if(LANG==='en'&&r.message&&HAS.test(r.message))r.message=args[2]==='OUT'?'OUT recorded successfully':'IN recorded successfully'}ok(r)},bad);
+ if(fn==='getAdminDashboard')return _rs(fn,args,d=>{fix(d);const m=todayIso().slice(0,7);
+  _rs('getAdminReport',[args[0],{from:m+'-01',to:todayIso(),employee:''}],rows=>{fix(rows);d.monthOt=rows.reduce((s,r)=>s+(+r.otHours||0),0);ok(d)},()=>ok(d))},bad);
+ if(fn==='getPayroll')return _rs(fn,args,pr=>{const mo=args[1],p=mo.split('-').map(Number),last=new Date(p[0],p[1],0).getDate();
+  _rs('getAdminReport',[args[0],{from:mo+'-01',to:mo+'-'+String(last).padStart(2,'0'),employee:''}],rows=>{fix(rows);
+   _rs('getSettings',[args[0]],st=>{const mult=+st.otMultiplier||1;pr.forEach(x=>{x.otHours=rows.filter(r=>r.employeeId===x.id).reduce((a,r)=>a+(+r.otHours||0),0);x.otPay=+(x.otHours*x.monthlySalary/26/8*mult).toFixed(2);x.gross=+(x.monthlySalary+x.otPay).toFixed(2)});ok(pr)},()=>ok(pr))},()=>ok(pr))},bad);
+ return _rs(fn,args,r=>{fix(r);ok(r)},bad)};
+/* load special-employee IDs + IN/OUT windows from the Google Sheet (Settings sheet) */
+window.FIX_STATUS='loading';
+function loadFixedCfg(){_rs('getFixedConfig',[],c=>{if(c&&Array.isArray(c.ids)){FIXED_IDS=c.ids.map(x=>String(x).trim().toUpperCase());FIX_IN_MIN=c.inFrom;FIX_IN_MAX=c.inTo;FIX_OUT_MIN=c.outFrom;FIX_OUT_MAX=c.outTo;window.FIX_STATUS='ok'}else window.FIX_STATUS='old-server';cfgDone()},m=>{window.FIX_STATUS='error: '+m;cfgDone()})}
+const cfgQ=[];let cfgReady=false;
+function cfgDone(){cfgReady=true;console.log('Special IDs:',FIXED_IDS,window.FIX_STATUS);cfgQ.splice(0).forEach(f=>f())}
+/* every other server call waits until the special-ID list has been loaded (avoids wrong hours right after refresh) */
+const _rs2=runServer;runServer=function(fn,args,ok,bad){if(!cfgReady){cfgQ.push(()=>_rs2(fn,args,ok,bad));return}return _rs2(fn,args,ok,bad)};
+loadFixedCfg();setTimeout(()=>{if(!cfgReady)cfgDone()},10000);
+(function(){const ei=document.getElementById('editInTime'),eo=document.getElementById('editOutTime');if(!ei||!eo)return;
+ const f=()=>{if(TRUST_SERVER)return;const c=calcDay(ei.value,eo.value,rowEmp[document.getElementById('editRowNumber').value]);if(c){document.getElementById('editWorkHours').value=c.net.toFixed(2);document.getElementById('editOtHours').value=c.ot.toFixed(2)}};
+ ei.addEventListener('input',f);eo.addEventListener('input',f)})();
+
+
+/* ---- Live breakup on employee dashboard ---- */
+function renderBreak(){
+ if(role!=='employee'||!employee||!document.getElementById('lbTot'))return;
+ const rows=myRows||[],open=rows.slice().reverse().find(r=>r.inTime&&!r.outTime),today=rows.slice().reverse().find(r=>r.workDate===todayIso()&&r.outTime);
+ let tot=0,work=0,ot=0,tag='';
+ if(open){const n=new Date(),nm=n.getHours()*60+n.getMinutes()+n.getSeconds()/60,c=calcMin(tmin(open.inTime),nm,employee.id);
+  if(c){tot=c.tot;work=c.net;ot=c.ot}tag='● LIVE'}
+ else if(today){tot=+today.totalHours||0;work=+today.workHours||0;ot=+today.otHours||0;tag='DONE'}
+ const f=v=>(Number(v)||0).toFixed(1);
+ document.getElementById('lbTot').textContent=f(tot);document.getElementById('lbWork').textContent=f(work);document.getElementById('lbOt').textContent=f(ot);
+ document.getElementById('lbTag').textContent=tag}
+setInterval(renderBreak,1000);
+
+/* ---- 2. Tamil / English toggle ---- */
+const LK='attn_lang',DICT={"சுபம் பேப்பர்ஸ்": "Subam Papers", "வருகைப் பதிவு": "Attendance Record", "சுபம் பேப்பர்ஸ் லிமிடெட்": "Subam Papers Limited", "குறிப்பு": "Notes", "மாதச் சம்பளம்": "Monthly Salary", "வரவேற்கிறோம்": "Welcome", "உங்கள் கணக்கில் உள்நுழையுங்கள்": "Log in to your account", "ஊழியர்": "Employee", "நிர்வாகி": "Admin", "ஊழியர் எண்": "Employee No.", "ஊழியர் எண்ணை உள்ளிடவும்": "Enter employee number", "எண்": "No.", "காட்டு": "Show", "உள்நுழை": "Log in", "நிர்வாகியின் முதல்": "Admin's initial", "உள்நுழைந்த பிறகு உடனே மாற்றவும்": "Change it right after logging in", "கைரேகை": "Fingerprint", "பதிவு செய்யும்போது மட்டுமே கேட்கப்படும்": "scan is asked only when punching", "வணக்கம்": "Hello", "வெளியேறு": "Log out", "இன்றைய பதிவு": "Today's Punch", "வருகை பதிவு": "Record arrival", "காரணம்": "Reason", "இருந்தால் எழுதவும்": "enter if applicable", "எ": "e", "கா": "g", "இயந்திரக் கோளாறு": "machine breakdown", "அவசர ஆர்டர்": "urgent order", "இந்த மாதச் சுருக்கம்": "This month's summary", "வருகை நாட்கள்": "Days present", "நிகர வேலை மணி": "Net work hours", "மணி": "hrs", "இன்று": "Today", "நேரம்": "time", "என் வருகைப் பதிவுகள்": "My attendance records", "மெமோ": "Memo", "தேதி": "Date", "ஷிப்ட்": "Shift", "நிகர மணி": "Net hrs", "நிலை": "Status", "நிர்வாகி முகப்பு": "Admin home", "முகப்பு": "Home", "ஊழியர்கள்": "Employees", "வருகை திருத்தம்": "Attendance edit", "அறிக்கைகள்": "Reports", "சம்பளம்": "Salary", "அமைப்புகள்": "Settings", "புதுப்பி": "Refresh", "தற்போது உள்ளே இருப்பவர்கள்": "Currently inside", "பெயர்": "Name", "இன்றைய பதிவுகள்": "Today's records", "புதிய ஊழியர் சேர்": "Add new employee", "ஊழியர் பெயர்": "Employee name", "குறைந்தது": "At least", "எழுத்துகள்": "characters", "துறை": "Department", "உற்பத்தி": "Production", "பதவி": "Designation", "ஆபரேட்டர்": "Operator", "காலை": "Morning", "முதல் மாலை": "to Evening", "வரை": "", "மாலை": "Evening", "முதல் இரவு": "to Night", "இரவு": "Night", "முதல் காலை": "to Morning", "ஊழியரைச் சேமி": "Save employee", "ஊழியர் பட்டியல்": "Employee list", "செயலில்": "Active", "செயல்கள்": "Actions", "வருகைப் பதிவு திருத்தம்": "Edit attendance record", "நிர்வாகி மட்டும்": "Admin only", "தொடக்கத் தேதி": "Start date", "முடிவுத் தேதி": "End date", "அனைத்து ஊழியர்கள்": "All employees", "பதிவுகளைக் காட்டு": "Show records", "பதிவைத் திருத்து": "Edit record", "வேலை நாள்": "Work date", "வேலை மணி": "Work hours", "நிகர": "net", "காரணத்தை எழுதவும்": "Enter the reason", "மாற்றங்களைச் சேமி": "Save changes", "ரத்து செய்": "Cancel", "வருகை": "Attendance", "அறிக்கை வகை": "Report type", "நிமிர்வு": "portrait", "அனைத்து ஊழியர் வருகைப் பதிவு": "All employees attendance record", "அறிக்கையைக் காட்டு": "Show report", "அச்சிடு": "Print", "சேமி": "Save", "மாதச் சம்பள அறிக்கை": "Monthly salary report", "கணக்கிடு": "Calculate", "மணி விகிதம்": "hourly rate", "தொகை": "amount", "பெருக்கி": "multiplier", "இந்தப் பதிப்பில் வராத நாட்களுக்கான பிடித்தம் சேர்க்கப்படவில்லை": "Absent-day deductions are not included in this version", "மொத்தச் சம்பளம்": "Gross salary", "புதிய நிர்வாகி": "New admin", "மாற்ற வேண்டாமெனில் காலியாக விடவும்": "Leave blank if no change", "அமைப்புகளைச் சேமி": "Save settings", "உள்ளே": "Inside", "முடிந்தது": "Done", "விடுபட்டது": "missed", "சர்வருடன் இணைக்க முடியவில்லை": "Cannot connect to the server", "முகவரியைச் சேர்க்கவும்": "Add the URL", "சர்வர் பிழை": "Server error", "இணைய இணைப்பு பிழை": "Internet connection error", "போனில் கைரேகை": "Scan fingerprint", "முகத்தை ஸ்கேன் செய்யுங்கள்": "face now", "முகப் பாதுகாப்பு இந்த போனில் இயக்கப்பட்டது": "protection enabled on this phone", "இயக்க முடியவில்லை": "Could not enable", "இந்த போனில் கைரேகை இயக்கப்படவில்லை": "Fingerprint is not enabled on this phone", "இந்த போனில் கைரேகைப் பாதுகாப்பை நீக்கலாமா": "Remove fingerprint protection from this phone?", "இந்த போனில் கைரேகை": "On this phone, fingerprint", "முகப் பாதுகாப்பு இயக்கத்தில் உள்ளது": "face protection is ON", "ன் போது ஸ்கேன் கேட்கும்": "you'll be asked to scan", "நீக்கு": "Remove", "முகம் மூலம்": "face", "பதிவு பாதுகாப்பாக்குங்கள்": "to secure your punches", "இயக்கு": "Enable", "எண்ணை உள்ளிடவும்": "enter the number", "புறப்பாடு பதிவு": "Record departure", "ஸ்கேன் தோல்வி": "Scan failed", "நிகர வேலை": "Net work", "இடைவேளை": "Break", "நிமிடம்": "min", "இந்த மாதத்திற்கு பதிவுகள் இல்லை": "No records for this month", "மாதச் சுருக்கம்": "Month summary", "செய்த நேரம்": "punched at", "உள்ளே உள்ளீர்கள்": "you are inside", "இன்றைய": "Today's", "இன்னும்": "Not yet", "செய்யவில்லை": "punched", "மொத்த ஊழியர்கள்": "Total employees", "இன்று வருகை": "Present today", "தற்போது உள்ளே": "Currently inside", "இன்று வராதவர்": "Absent today", "இந்த மாத": "This month's", "தற்போது யாரும் உள்ளே இல்லை": "No one is inside right now", "இன்று இதுவரை பதிவுகள் இல்லை": "No records yet today", "இயக்கத்தில்": "Enabled", "இல்லை": "No", "ஆம்": "Yes", "முடக்கு": "Disable", "மாற்று": "Change", "கைரேகை நீக்கு": "Remove fingerprint", "ஊழியர் வெற்றிகரமாகச் சேமிக்கப்பட்டார்": "Employee saved successfully", "ஊழியர் இயக்கப்பட்டார்": "Employee enabled", "ஊழியர் முடக்கப்பட்டார்": "Employee disabled", "க்கான புதிய": "'s new", "வெற்றிகரமாக மாற்றப்பட்டது": "changed successfully", "இவரின் அனைத்து போன்களின் கைரேகைப் பதிவையும் நீக்கலாமா": "Remove fingerprint records from all of this person's phones?", "கைரேகைப் பதிவுகள் நீக்கப்பட்டன": "Fingerprint records removed", "வருகைப் பதிவு வெற்றிகரமாகத் திருத்தப்பட்டது": "Attendance record updated successfully", "வருகைப் பதிவுகள்": "Attendance records", "ஞாயிறு": "Sunday", "திருத்து": "Edit", "பதிவுகள் எதுவும் இல்லை": "No records", "ஊழியரைத் தேர்ந்தெடுத்தால் அவருக்கான": "If you select an employee, then for them", "தேர்ந்தெடுக்காவிட்டால் அனைத்து ஊழியர்களுக்கும் தனித்தனி மெமோ": "If none is selected, a separate memo for every employee", "தேர்ந்தெடுத்த தேதி வரம்பில் உள்ள அனைத்து வருகைப் பதிவுகளும்": "All attendance records within the selected date range", "முதலில் மாதத்தைத் தேர்ந்தெடுக்கவும்": "Select the month first", "இந்த மாதத்திற்கு": "For this month", "வருகைப் பதிவு இல்லை": "no attendance record", "முதலில்": "First,", "அழுத்தவும்": "click", "தரவு இல்லை": "No data", "அமைப்புகள் வெற்றிகரமாகச் சேமிக்கப்பட்டன": "Settings saved successfully"},PHR={"இடைவேளை விதி: IN நேரம் காலை 9:00 முதல் மதியம் 2:00 வரை இருந்தால் 30 நிமிடம் கழிக்கப்படும். நிகர வேலை நேரம் 8 மணியை விட 2 மணி நேரம் அல்லது அதற்கு மேல் அதிகமாக இருந்தால் மட்டுமே OT கணக்கிடப்படும்.": "Break rule: if IN time is between 9:00 AM and 2:00 PM, 30 minutes is deducted. OT is counted only when net work time exceeds 8 hours by 2 hours or more."};
+window.LANG='ta';try{window.LANG=localStorage.getItem(LK)==='en'?'en':'ta'}catch(e){}
+const TA=/[\u0B80-\u0BFF\u200c\u200d]+(?:[ \u00a0]+[\u0B80-\u0BFF\u200c\u200d]+)*/g;
+const tr=s=>{const t=s.trim();if(PHR[t]!==undefined)return s.replace(t,PHR[t]);return s.replace(TA,r=>DICT[r]!==undefined?DICT[r]:r)};
+const C=new WeakMap(),CA=new WeakMap(),AT=['placeholder','title','aria-label'];
+function conv(cur,rec){const src=(rec&&rec.en===cur)?rec.ta:cur;return{src,out:LANG==='en'?tr(src):src}}
+function doText(n){const p=n.parentElement;if(p&&p.closest('[data-notr],script,style'))return;const rec=C.get(n);if(!rec&&!HAS.test(n.data))return;
+ const c=conv(n.data,rec);if(n.data!==c.out)n.data=c.out;if(HAS.test(c.src))C.set(n,{ta:c.src,en:c.out});else C.delete(n)}
+function doEl(e){if(e.closest('[data-notr]'))return;for(const a of AT){const cur=e.getAttribute(a);if(cur==null)continue;let m=CA.get(e);const rec=m&&m[a];if(!rec&&!HAS.test(cur))continue;
+ const c=conv(cur,rec);if(cur!==c.out)e.setAttribute(a,c.out);m=m||{};m[a]={ta:c.src,en:c.out};CA.set(e,m)}}
+function walk(r){if(r.nodeType===3){doText(r);return}if(r.nodeType!==1)return;doEl(r);const w=document.createTreeWalker(r,5);let n;while(n=w.nextNode())n.nodeType===3?doText(n):doEl(n)}
+const mo=new MutationObserver(ms=>{mo.disconnect();ms.forEach(m=>{if(m.type==='childList')m.addedNodes.forEach(walk);else if(m.type==='characterData')doText(m.target);else if(m.type==='attributes')doEl(m.target)});start()});
+function start(){mo.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:AT})}
+['alert','confirm','prompt'].forEach(k=>{const o=window[k].bind(window);window[k]=(m,...r)=>o(LANG==='en'?tr(String(m)):m,...r)});
+const _tl=Date.prototype.toLocaleDateString;Date.prototype.toLocaleDateString=function(l,o){return _tl.call(this,(LANG==='en'&&l==='ta-IN')?'en-IN':l,o)};
+const _bw=bioWhyNot,_be=bioErr;
+bioWhyNot=function(){if(LANG!=='en')return _bw();
+ if(isFile)return 'You opened this HTML file directly (file://). To use fingerprint, open it from an https:// address such as GitHub Pages / Netlify.';
+ if(inFrame)return 'This page is open inside Apps Script (iframe); fingerprint is blocked there. Open it directly from an https:// address.';
+ if(!window.isSecureContext)return 'Open from an https:// address (fingerprint does not work on http).';
+ if(!window.PublicKeyCredential)return 'This browser has no fingerprint support. Use Chrome (Android) or Safari (iPhone).';
+ return 'Set up a screen lock (fingerprint / face / PIN) on the phone and try again.'};
+bioErr=function(e){if(LANG!=='en')return _be(e);const n=e&&e.name;
+ if(n==='NotAllowedError')return 'Scan cancelled, or fingerprint is not permitted on this page.';
+ if(n==='SecurityError')return 'Fingerprint is blocked on this page (https:// required).';
+ if(n==='InvalidStateError')return 'Already registered on this phone.';
+ return (e&&e.message)||String(e)};
+function dates(){const t=document.getElementById('todayDate');if(t&&t.textContent)t.textContent=new Date().toLocaleDateString('ta-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ const d=document.getElementById('dashDate');if(d&&d.textContent)d.textContent='• '+new Date().toLocaleDateString('ta-IN',{day:'numeric',month:'short',year:'numeric'})}
+function setLang(l){window.LANG=l;try{localStorage.setItem(LK,l)}catch(e){}mo.disconnect();walk(document.body);
+ document.documentElement.lang=l;document.title=l==='en'?'Subam Papers - Attendance Record':'சுபம் பேப்பர்ஸ் - வருகைப் பதிவு';
+ const b=document.getElementById('langBtn');if(b)b.textContent=l==='en'?'தமிழ்':'English';start();dates()}
+window.toggleLang=()=>setLang(LANG==='en'?'ta':'en');
+
+/* ---- 3. One IN + one OUT per day ---- */
+const doneToday=()=>punchState==='OUT'&&(myRows||[]).some(r=>r.workDate===todayIso());
+const doneMsg=()=>LANG==='en'?'Today\'s IN / OUT is already completed. Only one IN and one OUT is allowed per day.':'இன்றைய IN / OUT ஏற்கனவே முடிந்தது. ஒரு நாளுக்கு ஒரு முறை மட்டுமே IN / OUT செய்ய முடியும்.';
+const _up=updatePunchUI;
+updatePunchUI=function(){_up();const b=document.getElementById('punchBtn');if(b&&doneToday()){b.disabled=true;showMsg('punchMsg',doneMsg(),'ok')}};
+const _dp=doPunch;
+doPunch=function(){if(doneToday()){showMsg('punchMsg',doneMsg(),'err');return}
+ const b=document.getElementById('punchBtn');b.disabled=true;
+ runServer('getMyHistory',[employee.id,secret,monthNow()],rows=>{myRows=rows;
+  const open=rows.slice().reverse().find(r=>r.inTime&&!r.outTime),had=rows.some(r=>r.workDate===todayIso());
+  if(!open&&had){punchState='OUT';updatePunchUI();showMsg('punchMsg',doneMsg(),'err');loadMyHistory();return}
+  punchState=open?'IN':'OUT';b.disabled=false;_dp()},e=>{b.disabled=false;showMsg('punchMsg',e,'err')})};
+if(LANG==='en')setLang('en');else start();
+})();
+
+</script>
+
+<script>
+/* ===== Employee Abstract tab ===== */
+function showEmpTab(n,btn){
+ document.getElementById('empTabMain').classList.toggle('hidden',n!=='main');
+ document.getElementById('empTabAbs').classList.toggle('hidden',n!=='abs');
+ document.querySelectorAll('#empTabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+ if(n==='abs'){const m=document.getElementById('absMonth');if(!m.value)m.value=monthNow();loadAbstract()}
+}
+function loadAbstract(){
+ const month=document.getElementById('absMonth').value||monthNow();
+ runServer('getMyHistory',[employee.id,secret,month],rows=>{
+  const [yy,mm]=month.split('-').map(Number),last=new Date(yy,mm,0).getDate(),by={};
+  rows.forEach(r=>by[r.workDate]=r);
+  const sum=k=>rows.reduce((s,r)=>s+(+r[k]||0),0);
+  const present=rows.filter(r=>r.inTime).length,otDays=rows.filter(r=>+r.otHours>0).length;
+  const sunDays=rows.filter(r=>r.inTime&&new Date(yy,mm-1,+r.workDate.slice(8,10)).getDay()===0).length;
+  const missed=rows.filter(r=>r.inTime&&!r.outTime&&r.workDate!==todayIso()).length;
+  const tiles=[['Days Present',present,'g'],['Total Work Hrs',H(sum('totalHours')),''],['Working Hrs',H(sum('workHours')),''],['OT Hrs',H(sum('otHours')),'a'],['OT Days',otDays,'a'],['Sundays Worked',sunDays,''],['Missed OUT',missed,'r']];
+  document.getElementById('absStats').innerHTML=tiles.map(t=>`<div class="stat ${t[2]}">${t[0]}<strong>${t[1]}</strong></div>`).join('');
+  let body='';
+  for(let d=1;d<=last;d++){
+   const iso=month+'-'+String(d).padStart(2,'0'),dt=new Date(yy,mm-1,d),dn=dt.toLocaleDateString('en-US',{weekday:'short'}),r=by[iso],sun=dn==='Sun';
+   body+=`<tr style="${sun?'background:#fff7cc':''}"><td>${String(d).padStart(2,'0')}/${String(mm).padStart(2,'0')}/${yy}</td><td>${dn}</td><td>${r?esc(r.inTime):''}</td><td>${r?esc(r.outTime):''}</td><td>${r&&r.outTime?H(r.totalHours):''}</td><td>${r&&r.outTime?H(r.workHours):''}</td><td>${r&&r.outTime?H(r.otHours):''}</td><td>${r?esc(r.reason||''):''}</td></tr>`;
+  }
+  body+=`<tr style="font-weight:800;background:#eaf4f7"><td colspan="4">TOTAL</td><td>${H(sum('totalHours'))}</td><td>${H(sum('workHours'))}</td><td>${H(sum('otHours'))}</td><td></td></tr>`;
+  document.getElementById('absRows').innerHTML=body;
+ },e=>{document.getElementById('absStats').innerHTML='<div class="msg err">'+esc(e)+'</div>'});
+}
+</script>
+</body>
+</html>
